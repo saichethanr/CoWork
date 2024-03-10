@@ -6,9 +6,9 @@
 }
 
 .aside {
-    background: whitesmoke;
+    background: #0f0a19;
     padding: 16px;
-    color: black;
+    color: white;
     display: flex;
     flex-direction: column;
 }
@@ -22,13 +22,13 @@
     align-items: center;
     flex-wrap: wrap;
     gap: 20px;
+
 }
 
 .client {
     display: flex;
     align-items: center;
     flex-direction: column;
-    font-weight: bold;
    
 }
 

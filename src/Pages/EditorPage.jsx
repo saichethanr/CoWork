@@ -58,10 +58,7 @@ const EditorPage = () => {
     <div className="mainwrap">
       <div className="aside">
         <div className="asideInner">
-          <div className="logo">
-            <img className="logoImage" src="/COWORK.png" alt="logo" />
-          </div>
-          <h3>Collaborators</h3>
+          <h4>Collaborators</h4>
           <div className="clientsList">
             {clients.map((client) => (
               <Client key={client.socketId} username={client.username} />
