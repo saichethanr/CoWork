@@ -4,6 +4,8 @@ import Home from "./Pages/Home.jsx";
 import EditorPage from "./Pages/EditorPage.jsx";
 import Homepage from './Pages/homepage.jsx';
 import {Toaster} from 'react-hot-toast'
+import SignUp from './Pages/SignUp.jsx';
+import Login from './Pages/Login.jsx';
 function App() {
   return (
     <>
@@ -16,11 +18,14 @@ function App() {
         },
       }}></Toaster>
     </div>
+    
     <BrowserRouter>
     <Routes>
       <Route path="/" element={<Homepage/>}></Route>
       <Route path="/join" element={<Home/>}></Route>
       <Route path="/editor/:roomId" element={<EditorPage/>}></Route>
+      <Route path="/signup" element={<SignUp/>}></Route>
+      <Route path="/login" element={<Login/>}></Route>
     </Routes>
     </BrowserRouter>
     </>
