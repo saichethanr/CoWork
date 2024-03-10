@@ -1,38 +1,16 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Client from '../Components/Client';
 import './CSS/Editorpage.css';
-import Editor from "@monaco-editor/react";
 import ACTIONS from '../Actions';
 import toast from 'react-hot-toast';
 import { useLocation , useNavigate, Navigate,useParams} from 'react-router-dom';
 import { initSocket } from '../socket';
+import {Box} from "@chakra-ui/react";
+import CodeEditor from '../Components/CodeEditor';
 const EditorPage = () => {
   const [clients, setClients] = useState([]);
 
-  const files = {
-    "script.py": {
-      name: "script.py",
-      language: "python",
-      value: "Here is some python text"
-    },
-    "index.html": {
-      name: "index.html",
-      language: "html",
-      value: "<html></html>"
-    }
-  };
-
-  const [fileName, setFileName] = useState("script.py");
-  const editorRef = useRef(null);
-  const file = files[fileName];
-
-  function handleEditorDidMount(editor, monaco) {
-    editorRef.current = editor;
-  }
-
-  function getEditorValue() {
-    alert(editorRef.current.getValue());
-  }
+  
 
   const reactNavigator = useNavigate();
   const socketRef = useRef(null);
@@ -93,29 +71,9 @@ const EditorPage = () => {
         <button className="btn copyBtn">Copy ROOM ID</button>
         <button className="btn leaveBtn">Leave</button>
       </div>
-      <div className="editorwrap">
-        <button onClick={() => setFileName("index.html")}>
-          Switch to index.html
-        </button>
-        <button onClick={() => setFileName("script.py")}>
-          Switch to script.py
-        </button>
-        <button onClick={getEditorValue}>
-          Get Editor Value
-        </button>
-        <Editor
-          height="100vh"
-          width="100%"
-          theme="vs-dark"
-          onMount={handleEditorDidMount}
-          path={file.name}
-          defaultLanguage={file.language}
-          defaultValue={file.value}
-          options={{
-            wordWrap: 'on',
-          }}
-        />
-      </div>
+      <Box minH="100vh" zIndex={1000} bg="#0f0a19" color="gray.500" px={6} py={8}>
+        <CodeEditor/>
+      </Box>
     </div>
   );
 };
