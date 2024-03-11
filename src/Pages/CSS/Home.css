@@ -11,7 +11,7 @@
     padding: 20px;
     border-radius: 10px;
     width:500px;
-    height:350px;
+    height:400px;
     max-width: 90%;
     
   }
@@ -49,6 +49,7 @@
     background: rgb(159, 159, 192);
     width:100px;
     margin-left: auto;
+    color:black;
   }
   
   .joinbtn:hover{

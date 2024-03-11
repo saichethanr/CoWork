@@ -58,7 +58,7 @@ const EditorPage = () => {
     <div className="mainwrap">
       <div className="aside">
         <div className="asideInner">
-          <h4>Collaborators</h4>
+          <h3>Collaborators</h3>
           <div className="clientsList">
             {clients.map((client) => (
               <Client key={client.socketId} username={client.username} />
