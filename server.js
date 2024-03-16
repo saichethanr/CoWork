@@ -30,13 +30,18 @@ io.on('connection',(socket)=>{
          console.log(username);
          console.log(socket.id);
       clients.forEach((socketId)=>{
-         io.to(socket.id).emit(ACTIONS.JOINED,{
+         io.to(roomId).emit(ACTIONS.JOINED,{
             clients,
             username,
             socketId:socket.id,
          });
-      })
-    })
+      });
+    });
+
+    socket.on(ACTIONS.CODE_CHANGE, ({ roomId, code }) => {
+        console.log(code);
+        socket.in(roomId).emit(ACTIONS.CODE_CHANGE, { code }); 
+    });
 })
 
 const port  = process.env.PORT || 5600

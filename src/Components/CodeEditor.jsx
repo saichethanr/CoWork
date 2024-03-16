@@ -6,11 +6,12 @@ import { CODE_SNIPPETS } from './constant'
 import Output from './Output'
 import ACTIONS from '../Actions'
 
-const CodeEditor = ({socketRef}) => {
+const CodeEditor = ({socketRef,roomId}) => {
   const editorRef=useRef()
   const [value,setValue]=useState('')
   const[language,setLanguage]=useState('javascript')
-
+  const [userTyping, setUserTyping] = useState(false);
+  
   const onMount=(editor)=>{
     editorRef.current=editor;
     editor.focus();
@@ -33,6 +34,21 @@ const CodeEditor = ({socketRef}) => {
      })
     }
 
+      //working
+  const handleEditorChange = (newValue) => {
+    setValue(newValue);
+    setUserTyping(true);
+    console.log(newValue)
+    socketRef.current.emit(ACTIONS.CODE_CHANGE, {
+      roomId,
+      code: newValue
+    });
+
+    setTimeout(() => {
+      setUserTyping(false);
+    }, 500); // Adjust debounce delay as needed
+  };
+
   return (
     <Box>
       <HStack spacing={4}>
@@ -50,7 +66,7 @@ const CodeEditor = ({socketRef}) => {
             defaultValue={CODE_SNIPPETS[language]}
             onMount={onMount}
             value={value}
-            onChange={(value) => setValue(value)}
+            onChange={handleEditorChange}
           />
         </Box>
         <Output editorRef={editorRef} language={language}/>
