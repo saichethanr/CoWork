@@ -2,12 +2,30 @@ import { log } from "console";
 import express from "express";
 import { Server } from 'socket.io';
 import http from 'http';
+import pg from "pg";
+import cors from "cors"
+import bodyParser from "body-parser";
 import ACTIONS from "./src/Actions.js";
 const app = express()
 const server  = http.createServer(app); 
 const io = new Server(server);
 //which saoked id for which user 
 const userSocketMap ={}
+
+app.use(cors());
+//middleware
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+
+const db = new pg.Client({
+    user: 'sai',
+    host: '127.0.0.1',
+    database: 'CoWork',
+    password: '1445',
+    port: 5432, 
+  });
+
+  db.connect();
 
 
 function getALlConnectedClients(roomId){
@@ -43,6 +61,32 @@ io.on('connection',(socket)=>{
         socket.in(roomId).emit(ACTIONS.CODE_CHANGE, { code }); 
     });
 })
+
+
+//level 1 auth
+app.post("/signup", async (req, res) => {
+    const name = req.body.firstname;
+    const email = req.body.email;
+    const password = req.body.password;
+     console.log(password);
+    if (!name || !email || !password) {
+        return res.status(400).send("Please provide name, email, and password");
+    }
+
+    try {
+        const exist = await db.query("SELECT * FROM users WHERE email = $1", [email]);
+        if (exist.rows.length > 0) {
+            return res.send("User already exists");
+        }
+
+        await db.query("INSERT INTO users (email, name, password) VALUES ($1, $2, $3)", [email, name, password]);
+        return res.send("User successfully registered");
+    } catch (error) {
+        console.error("Error registering user:", error);
+        return res.status(500).send("Internal server error");
+    }
+});
+
 
 const port  = process.env.PORT || 5600
 server.listen(port,()=>{
