@@ -69,7 +69,7 @@ const EditorPage = () => {
         <button className="btn leaveBtn">Leave</button>
       </div>
       <Box minH="100vh" zIndex={1000} bg="#0f0a19" color="gray.500" px={6} py={8}>
-        <CodeEditor/>
+        <CodeEditor socketRef = {socketRef}/>
       </Box>
     </div>
   );

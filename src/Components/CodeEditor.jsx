@@ -4,8 +4,9 @@ import { Editor } from '@monaco-editor/react'
 import LanguageSelector from './LanguageSelector'
 import { CODE_SNIPPETS } from './constant'
 import Output from './Output'
+import ACTIONS from '../Actions'
 
-const CodeEditor = () => {
+const CodeEditor = ({socketRef}) => {
   const editorRef=useRef()
   const [value,setValue]=useState('')
   const[language,setLanguage]=useState('javascript')
@@ -19,6 +20,19 @@ const CodeEditor = () => {
     setLanguage(language);
     setValue(CODE_SNIPPETS[language]);
   }
+
+    //little worked
+    if(socketRef.current){
+      socketRef.current.on(ACTIONS.CODE_CHANGE,({code})=>{
+        setValue(code);
+       console.log(code);
+      //  if(editorRef){
+      //       editorRef.current.setValue(code);
+      //  }
+    
+     })
+    }
+
   return (
     <Box>
       <HStack spacing={4}>
