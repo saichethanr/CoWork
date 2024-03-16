@@ -88,6 +88,27 @@ app.post("/signup", async (req, res) => {
 });
 
 
+app.post("/login", async (req, res) => {
+    const email = req.body.useremail;
+    const password = req.body.userpassword;
+    const exist = await  db.query(
+      "SELECT * FROM users WHERE email = $1",[email]
+    )
+    if(exist.rows.length>0){
+      const user  = exist.rows[0];
+      const storedpassword = user.password;
+      if(storedpassword==password){
+        res.send("Success")
+      }
+      else{
+        res.send("incorrect password");
+      }
+    }
+    else{
+      res.send("user doesnt exist");
+    }
+  });
+
 const port  = process.env.PORT || 5600
 server.listen(port,()=>{
     console.log(`listning on port ${port}`)
