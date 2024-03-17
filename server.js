@@ -6,6 +6,7 @@ import pg from "pg";
 import cors from "cors"
 import bodyParser from "body-parser";
 import ACTIONS from "./src/Actions.js";
+import { Socket } from "socket.io-client";
 const app = express()
 const server  = http.createServer(app); 
 const io = new Server(server);
@@ -55,6 +56,18 @@ io.on('connection',(socket)=>{
          });
       });
     });
+    
+   socket.on('disconnecting',()=>{
+    const rooms = [...socket.rooms];
+    rooms.forEach((roomId)=>{
+       socket.in(roomId).emit(ACTIONS.DISCONNECTED,{
+        socketId : socket.id,
+        username :userSocketMap[socket.id],
+       })
+    })
+    delete userSocketMap[socket.id];
+    socket.leave();
+   });
 
     socket.on(ACTIONS.CODE_CHANGE, ({ roomId, code }) => {
         console.log(code);
