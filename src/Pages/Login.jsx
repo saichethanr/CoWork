@@ -12,7 +12,7 @@ const Login =()=>{
   const [message,setMessage]=useState("");
   function register(){
     
-    Axios.post("http://localhost:5600/login",{ useremail:email,userpassword:password}).then((response)=>
+    Axios.post("http://localhost:5600/login",{useremail:email,userpassword:password}).then((response)=>
     {
         console.log(response.data);
         setMessage(response.data);

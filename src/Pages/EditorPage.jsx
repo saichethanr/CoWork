@@ -7,11 +7,10 @@ import { useLocation , useNavigate, Navigate,useParams} from 'react-router-dom';
 import { initSocket } from '../socket';
 import {Box} from "@chakra-ui/react";
 import CodeEditor from '../Components/CodeEditor';
+
+
 const EditorPage = () => {
   const [clients, setClients] = useState([]);
-
-  
-
   const reactNavigator = useNavigate();
   const socketRef = useRef(null);
   const location = useLocation();
@@ -81,6 +80,11 @@ const EditorPage = () => {
       console.error(err);
     }
   }
+
+  function leaveroom(){
+    reactNavigator('/');
+  }
+  
   if (!location.state) {
     return <Navigate to="/" />;
   }
@@ -97,7 +101,7 @@ const EditorPage = () => {
           </div>
         </div>
         <button className="btn copyBtn" onClick={copyroomId}>Copy ROOM ID</button>
-        <button className="btn leaveBtn">Leave</button>
+        <button className="btn leaveBtn" onClick={leaveroom}>Leave</button>
       </div>
       <Box minH="100vh" zIndex={1000} bg="#0f0a19" color="gray.500" px={6} py={8}>
         <CodeEditor socketRef = {socketRef} roomId={roomId}/>

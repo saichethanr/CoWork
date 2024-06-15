@@ -1,4 +1,4 @@
-import {useState,useRef} from 'react'
+import {useState,useRef,useEffect} from 'react'
 import {Box, HStack} from "@chakra-ui/react"
 import { Editor } from '@monaco-editor/react'
 import LanguageSelector from './LanguageSelector'
@@ -22,17 +22,32 @@ const CodeEditor = ({socketRef,roomId}) => {
     setValue(CODE_SNIPPETS[language]);
   }
 
-    //little worked
-    if(socketRef.current){
-      socketRef.current.on(ACTIONS.CODE_CHANGE,({code})=>{
-        setValue(code);
-       console.log(code);
-      //  if(editorRef){
-      //       editorRef.current.setValue(code);
-      //  }
+    // // working
+    // if(socketRef.current){
+    //   socketRef.current.on(ACTIONS.CODE_CHANGE,({code})=>{
+    //     setValue(code);
+    //    console.log(code);
+    //  });
+    // }
+
+    useEffect(() => {
+      if (socketRef.current) {
+          socketRef.current.on(ACTIONS.CODE_CHANGE, ({ code }) => {
+              if (code !== null) {
+                 setValue(code);
+              }
+          });
+      
+      }
+      if(socketRef.current){
+        return () => {
+          socketRef.current.off(ACTIONS.CODE_CHANGE);
+      };
+      }
+
     
-     })
-    }
+  }, [socketRef.current]);
+
 
       //working
   const handleEditorChange = (newValue) => {

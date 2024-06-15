@@ -10,7 +10,7 @@ import { Socket } from "socket.io-client";
 const app = express()
 const server  = http.createServer(app); 
 const io = new Server(server);
-//which saoked id for which user 
+//which sackked id for which user 
 const userSocketMap ={}
 
 app.use(cors());
